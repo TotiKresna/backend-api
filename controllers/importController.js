@@ -58,7 +58,13 @@ exports.importData = async (req, res) => {
                 { upsert: true, new: true, session }
             );
 
-            const opm_total = rowData.opm_tambah + rowData.opm_kurang + rowData.opm_kali + rowData.opm_bagi;
+            // Inisialisasi nilai opm yang kosong ke 0
+            const opm_tambah = rowData.opm_tambah || 0;
+            const opm_kurang = rowData.opm_kurang || 0;
+            const opm_kali = rowData.opm_kali || 0;
+            const opm_bagi = rowData.opm_bagi || 0;
+
+            const opm_total = opm_tambah + opm_kurang + opm_kali + opm_bagi;
 
             // Cari data nilai yang sudah ada dengan student_id atau dengan student_id null dan nilai yang sama
             const existingTestResult = await TestResult.findOne({

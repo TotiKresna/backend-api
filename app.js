@@ -6,6 +6,7 @@ const connectDB = require('./config/db');
 const studentRoutes = require('./routes/students');
 const testResultRoutes = require('./routes/testResults');
 const importRoutes = require('./routes/import');
+const authRoutes = require ('./routes/authRoutes.js');
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
 
@@ -20,6 +21,7 @@ connectDB();
 // Middleware
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(bodyParser.json());
 
 // Middleware untuk sesi
@@ -38,6 +40,7 @@ app.use(fileUpload());
 
 // Routes
 app.get("/", (req, res) => { res.send("NodeJS Project by Mastod"); });
+app.use('/auth', authRoutes);
 app.use('/students', studentRoutes);
 app.use('/test-results', testResultRoutes);
 app.use('/import', importRoutes);

@@ -6,6 +6,7 @@ const testResultSchema = new mongoose.Schema({
   opm_kurang: { type: Number, required: false },
   opm_kali: { type: Number, required: false },
   opm_bagi: { type: Number, required: false },
+  opm_total: { type : Number, required: false}
 });
 
 module.exports = mongoose.model('TestResult', testResultSchema);
