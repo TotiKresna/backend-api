@@ -20,7 +20,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000', //  URL frontend 
+  origin: process.env.FRONTEND_URL || 'https://frontend-react-liart.vercel.app', //  URL frontend 
   credentials: true
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
