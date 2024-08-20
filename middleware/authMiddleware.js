@@ -1,13 +1,16 @@
+// authMiddleware.js
 const jwt = require('jsonwebtoken');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 const authMiddleware = (roles = []) => {
   return (req, res, next) => {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+    const token = req.cookies.token;
     if (!token) {
       return res.status(401).json({ message: 'No token provided' });
     }
 
-    jwt.verify(token, 'your_jwt_secret', (err, decoded) => {
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
       if (err) {
         return res.status(401).json({ message: 'Failed to authenticate token' });
       }
