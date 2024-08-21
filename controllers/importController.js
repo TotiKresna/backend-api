@@ -12,7 +12,9 @@ exports.importData = async (req, res) => {
             session.endSession();
             return res.status(400).send('No files were uploaded.');
         }
-
+        if (!req.session) {
+            req.session = {};
+        }
         // Akses file yang diunggah
         const excelFile = req.files[Object.keys(req.files)[0]];
         req.session.uploadedFileData = excelFile.data;
@@ -59,12 +61,13 @@ exports.importData = async (req, res) => {
             );
 
             // Inisialisasi nilai opm yang kosong ke 0
-            const opm_tambah = rowData.opm_tambah || 0;
-            const opm_kurang = rowData.opm_kurang || 0;
-            const opm_kali = rowData.opm_kali || 0;
-            const opm_bagi = rowData.opm_bagi || 0;
+            const opm_tambah = parseFloat(rowData.opm_tambah) || 0;
+            const opm_kurang = parseFloat(rowData.opm_kurang) || 0;
+            const opm_kali = parseFloat(rowData.opm_kali) || 0;
+            const opm_bagi = parseFloat(rowData.opm_bagi) || 0;
 
-            const opm_total = opm_tambah + opm_kurang + opm_kali + opm_bagi;
+            let opm_total = opm_tambah + opm_kurang + opm_kali + opm_bagi;
+            opm_total = parseFloat(opm_total.toFixed(2)); // Membatasi dua angka di belakang koma
 
             // Cari data nilai yang sudah ada dengan student_id atau dengan student_id null dan nilai yang sama
             const existingTestResult = await TestResult.findOne({
