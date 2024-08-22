@@ -5,9 +5,14 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 const authMiddleware = (roles = []) => {
   return (req, res, next) => {
-    const token = req.cookies.token;
+    let token = req.cookies.token;
+
+    // Periksa header Authorization jika token tidak ada di cookies
     if (!token) {
-      return res.status(401).json({ message: 'No token provided' });
+      const authHeader = req.headers['authorization'];
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.substring(7);
+      }
     }
 
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
