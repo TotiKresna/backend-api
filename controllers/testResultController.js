@@ -45,6 +45,11 @@ exports.createTestResult = async (req, res) => {
     });
 
     const savedTestResult = await newTestResult.save();
+
+    // Emit 'newTestResult' event
+    const io = req.app.get('io');
+    io.emit('newTestResult', savedTestResult);
+
     res.status(201).json(savedTestResult);
   } catch (error) {
     res.status(500).json({ message: 'Error creating test result', error: error.message });
@@ -76,6 +81,11 @@ exports.updateTestResult = async (req, res) => {
 
     // Simpan perubahan data hasil tes
     const updatedTestResult = await testResult.save();
+
+    // Emit 'updateTestResult' event
+    const io = req.app.get('io');
+    io.emit('updateTestResult', updatedTestResult);
+
     res.status(200).json(updatedTestResult);
   } catch (error) {
     res.status(500).json({ message: 'Error updating test result', error: error.message });
@@ -95,6 +105,11 @@ exports.deleteTestResult = async (req, res) => {
 
     // Hapus data hasil tes
     await TestResult.deleteOne({ _id: id });
+
+    // Emit 'deleteTestResult' event
+    const io = req.app.get('io');
+    io.emit('deleteTestResult', id);
+
     res.status(200).json({ message: 'Hasil tes berhasil dihapus' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting test result', error: error.message });
@@ -111,6 +126,10 @@ exports.deleteMultipleTestResult = async (req, res) => {
 
     // Delete students whose IDs are in the provided list
     const result = await TestResult.deleteMany({ _id: { $in: ids } });
+
+    // Emit 'deleteMultipleTestResult' event
+    const io = req.app.get('io');
+    io.emit('deleteMultipleTestResult', ids);
 
     // Return the number of documents deleted
     res.status(200).json({ message: `${result.deletedCount} Hasil tes berhasil dihapus.` });

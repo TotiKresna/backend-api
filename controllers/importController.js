@@ -267,9 +267,13 @@ exports.importData = async (req, res) => {
                 status: 'pending',
                 createdAt: new Date()
             });
+
+            // Emit 'newJob' event
+            // const io = req.app.get('io');
+            // io.emit('newJob', Job);
         }
 
-        res.status(200).send({ success: 'Data processing has started. You will be notified once complete.' });
+        res.status(200).send({ success: 'Data processing has started.' });
     } catch (error) {
         res.status(500).send({ error: 'Terjadi kesalahan: ' + error.message });
     }

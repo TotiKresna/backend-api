@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// Middleware untuk file upload
+// file upload
 app.use(fileUpload());
 
 // Routes
@@ -39,6 +39,6 @@ app.use('/api/students', studentRoutes);
 app.use('/api/test-results', testResultRoutes);
 app.use('/api/import', importRoutes);
 
-startWorker();
+startWorker(app);
 
 module.exports = app;

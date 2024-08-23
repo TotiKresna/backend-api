@@ -62,11 +62,38 @@ exports.processBatch = async (batch, sessionId) => {
                     { session }
                 );
             }
+
+            processedCount++;
+
+            // Emit progress update every 10% or when all items are processed
+            if (processedCount % Math.ceil(totalCount / 10) === 0 || processedCount === totalCount) {
+                const progress = Math.floor((processedCount / totalCount) * 100);
+                io.emit('importProgress', { sessionId, progress });
+            }
         }
 
         await session.commitTransaction();
+
+        // Update job status
+        await Job.findOneAndUpdate(
+            { sessionId: sessionId },
+            { status: 'completed', updatedAt: new Date() }
+        );
+
+        // Emit job completion event
+        io.emit('importCompleted', { sessionId });
     } catch (error) {
         await session.abortTransaction();
+
+        // Update job status to failed
+        await Job.findOneAndUpdate(
+            { sessionId: sessionId },
+            { status: 'failed', error: error.message, updatedAt: new Date() }
+        );
+
+        // Emit job failure event
+        io.emit('importFailed', { sessionId, error: error.message });
+
         throw error;
     } finally {
         session.endSession();

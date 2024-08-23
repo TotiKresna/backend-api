@@ -1,7 +1,8 @@
-const Job = require('../models/Job');  // Pastikan Job model sudah dibuat
-const { processBatch } = require('../controllers/WorkerController');  // Import worker logic
+const Job = require('../models/Job');
+const { processBatch } = require('../controllers/WorkerController');
 
-const startWorker = async () => {
+const startWorker = async (app) => {
+    const io = app.get('io');
     while (true) {
         try {
             const job = await Job.findOneAndUpdate(
@@ -12,7 +13,7 @@ const startWorker = async () => {
 
             if (job) {
                 try {
-                    await processBatch(job.batch, job.sessionId);
+                    await processBatch(job.batch, job.sessionId, io);
                     job.status = 'completed';
                 } catch (error) {
                     job.status = 'failed';
