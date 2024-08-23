@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Student = require("../models/Student");
+const Job = require('../models/Job');
 const TestResult = require("../models/testResult");
 
 exports.processBatch = async (batch, sessionId) => {
