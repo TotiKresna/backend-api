@@ -9,6 +9,7 @@ const studentRoutes = require('./routes/students');
 const testResultRoutes = require('./routes/testResults');
 const importRoutes = require('./routes/import');
 const authRoutes = require('./routes/authRoutes.js');
+const startWorker = require('./worker/importWorker.js');
 
 const app = express();
 
@@ -37,5 +38,7 @@ app.use('/auth', authRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/test-results', testResultRoutes);
 app.use('/api/import', importRoutes);
+
+startWorker();
 
 module.exports = app;
