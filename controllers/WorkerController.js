@@ -3,11 +3,13 @@ const Student = require("../models/Student");
 const Job = require('../models/Job');
 const TestResult = require("../models/testResult");
 
-exports.processBatch = async (batch, sessionId) => {
-    const io = req.app.get('io');
+exports.processBatch = async (batch, sessionId, io) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
+        let processedCount = 0;
+        const totalCount = batch.length;
+        
         for (const row of batch) {
             const rowData = {};
             const expectedColumnNames = ['nama', 'kelas', 'opm_tambah', 'opm_kurang', 'opm_kali', 'opm_bagi'];
