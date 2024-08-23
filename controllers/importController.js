@@ -268,9 +268,7 @@ exports.importData = async (req, res) => {
                 createdAt: new Date()
             });
 
-            // Emit 'newJob' event
-            // const io = req.app.get('io');
-            // io.emit('newJob', Job);
+
         }
 
         res.status(200).send({ success: 'Data processing has started.' });
