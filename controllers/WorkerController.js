@@ -4,6 +4,7 @@ const Job = require('../models/Job');
 const TestResult = require("../models/testResult");
 
 exports.processBatch = async (batch, sessionId) => {
+    const io = req.app.get('io');
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
