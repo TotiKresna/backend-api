@@ -72,7 +72,6 @@ exports.processBatch = async (batch, sessionId) => {
 
         // Update job status
         await Job.findOneAndUpdate(
-            { sessionId: sessionId },
             { status: 'completed', updatedAt: new Date() }
         );
 
@@ -81,7 +80,6 @@ exports.processBatch = async (batch, sessionId) => {
 
         // Update job status to failed
         await Job.findOneAndUpdate(
-            { sessionId: sessionId },
             { status: 'failed', error: error.message, updatedAt: new Date() }
         );
 

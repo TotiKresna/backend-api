@@ -263,7 +263,6 @@ exports.importData = async (req, res) => {
 
             await Job.create({
                 batch,
-                sessionId: req.sessionId,
                 status: 'pending',
                 createdAt: new Date()
             });
