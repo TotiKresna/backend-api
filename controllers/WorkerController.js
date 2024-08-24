@@ -3,12 +3,10 @@ const Student = require("../models/Student");
 const Job = require('../models/Job');
 const TestResult = require("../models/testResult");
 
-exports.processBatch = async (batch, sessionId, io) => {
+exports.processBatch = async (batch, sessionId) => {
     const session = await mongoose.startSession();
     session.startTransaction();
     try {
-        let processedCount = 0;
-        const totalCount = batch.length;
         
         for (const row of batch) {
             const rowData = {};
@@ -67,13 +65,7 @@ exports.processBatch = async (batch, sessionId, io) => {
                 );
             }
 
-            processedCount++;
 
-            // Emit progress update every 10% or when all items are processed
-            if (processedCount % Math.ceil(totalCount / 10) === 0 || processedCount === totalCount) {
-                const progress = Math.floor((processedCount / totalCount) * 100);
-                io.emit('importProgress', { sessionId, progress });
-            }
         }
 
         await session.commitTransaction();
@@ -84,8 +76,6 @@ exports.processBatch = async (batch, sessionId, io) => {
             { status: 'completed', updatedAt: new Date() }
         );
 
-        // Emit job completion event
-        io.emit('importCompleted', { sessionId });
     } catch (error) {
         await session.abortTransaction();
 
@@ -94,9 +84,6 @@ exports.processBatch = async (batch, sessionId, io) => {
             { sessionId: sessionId },
             { status: 'failed', error: error.message, updatedAt: new Date() }
         );
-
-        // Emit job failure event
-        io.emit('importFailed', { sessionId, error: error.message });
 
         throw error;
     } finally {

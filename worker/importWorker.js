@@ -1,8 +1,8 @@
 const Job = require('../models/Job');
 const { processBatch } = require('../controllers/WorkerController');
 
-const startWorker = async (app) => {
-    const io = app.get('io');
+const startWorker = async () => {
+
     while (true) {
         try {
             const job = await Job.findOneAndUpdate(
@@ -13,7 +13,7 @@ const startWorker = async (app) => {
 
             if (job) {
                 try {
-                    await processBatch(job.batch, job.sessionId, io);
+                    await processBatch(job.batch, job.sessionId);
                     job.status = 'completed';
                 } catch (error) {
                     job.status = 'failed';

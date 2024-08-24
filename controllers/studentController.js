@@ -36,10 +36,6 @@ exports.createStudent = async (req, res) => {
     const newStudent = new Student(req.body);
     const savedStudent = await newStudent.save();
 
-    // Emit 'newStudent' event
-    const io = req.app.get('io');
-    io.emit('newStudent', savedStudent);
-
     res.status(201).json(savedStudent);
   } catch (error) {
     res.status(500).json({ message: "Error creating student" });
@@ -69,10 +65,6 @@ exports.updateStudent = async (req, res) => {
       return res.status(404).json({ message: "Siswa tidak ditemukan" });
     }
 
-    // Emit 'updateStudent' event
-    const io = req.app.get('io');
-    io.emit('updateStudent', updatedStudent);
-
     res.status(200).json(updatedStudent);
   } catch (error) {
     res.status(500).json({ message: "Error updating student" });
@@ -96,10 +88,6 @@ exports.deleteStudent = async (req, res) => {
     // Hapus data siswa
     await student.deleteOne({ _id: id });
 
-    // Emit 'deleteStudent' event
-    const io = req.app.get('io');
-    io.emit('deleteStudent', id);
-
     res.status(200).json({ message: 'Siswa berhasil dihapus' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting student', error: error.message });
@@ -119,10 +107,6 @@ exports.deleteMultipleStudents = async (req, res) => {
 
     // Delete students whose IDs are in the provided list
     const result = await Student.deleteMany({ _id: { $in: ids } });
-
-    // Emit 'deleteMultipleStudents' event
-    const io = req.app.get('io');
-    io.emit('deleteMultipleStudents', ids);
 
     // Return the number of documents deleted
     res.status(200).json({ message: `${result.deletedCount} students successfully deleted.` });
