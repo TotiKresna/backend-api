@@ -242,10 +242,13 @@
 //     }
 // };
 
+const mongoose = require('mongoose');
 const xlsx = require("xlsx");
 const Job = require('../models/Job');
 
 exports.importData = async (req, res) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
     try {
         if (!req.files || Object.keys(req.files).length === 0) {
             return res.status(400).send('No files were uploaded.');
@@ -257,20 +260,28 @@ exports.importData = async (req, res) => {
 
         const data = xlsx.utils.sheet_to_json(sheet, { header: 1 });
 
-        const BATCH_SIZE = 100;
+        const BATCH_SIZE = 50;
+        const jobs = [];
+
         for (let i = 1; i < data.length; i += BATCH_SIZE) {
             const batch = data.slice(i, i + BATCH_SIZE);
 
-            await Job.create({
+            jobs.push({
                 batch,
                 status: 'pending',
                 createdAt: new Date()
             });
-
         }
+
+        await Job.insertMany(jobs, { session });
+
+        await session.commitTransaction();
 
         res.status(200).send({ success: 'Data processing has started.' });
     } catch (error) {
-        res.status(500).send({ error: 'Terjadi kesalahan: ' + error.message });
+        await session.abortTransaction();
+        res.status(500).send({ error: 'An error occurred: ' + error.message });
+    } finally {
+        session.endSession();
     }
 };
