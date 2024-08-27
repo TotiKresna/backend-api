@@ -260,7 +260,7 @@ exports.importData = async (req, res) => {
 
         const data = xlsx.utils.sheet_to_json(sheet, { header: 1 });
 
-        const BATCH_SIZE = 50;
+        const BATCH_SIZE = 15;
         const jobs = [];
 
         for (let i = 1; i < data.length; i += BATCH_SIZE) {
