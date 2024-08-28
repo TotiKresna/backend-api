@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const jobSchema = new mongoose.Schema({
+    jobObjectId: {type: mongoose.Schema.Types.ObjectId, require:true},
     batch: {
         type: Array,
         required: true
@@ -16,6 +17,10 @@ const jobSchema = new mongoose.Schema({
     },
     updatedAt: {
         type: Date
+    },
+    progress: {
+        type: Number,
+        default: 0
     },
     sessionId: {
         type: String,
