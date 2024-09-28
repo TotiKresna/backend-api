@@ -21,7 +21,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://frontend-react-liart.vercel.app', //  URL frontend 
+  origin: process.env.FRONTEND_URL, //  URL frontend 
   credentials: true
 }));
 app.use(bodyParser.urlencoded({ extended: false }));

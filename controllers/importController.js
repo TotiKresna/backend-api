@@ -35,7 +35,7 @@ exports.importData = async (req, res) => {
         await session.commitTransaction();
         
 
-        res.status(200).send({ success: 'Data processing has started.' });
+        res.status(200).send({ info: 'File sedang diperiksa.' });
     } catch (error) {
         await session.abortTransaction();
         res.status(500).send({ error: 'An error occurred: ' + error.message });
