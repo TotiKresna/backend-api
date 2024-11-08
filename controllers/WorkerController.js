@@ -26,15 +26,19 @@ exports.processBatch = async (batch, sessionId) => {
                 { nama: rowData.nama, kelas: rowData.kelas },
                 { upsert: true, new: true, session }
             );
-
+            
+            // Mengubah hasil ke tipe number dan mengatasi nilai yang tidak valid
             const opm_tambah = parseFloat(rowData.opm_tambah) || 0;
             const opm_kurang = parseFloat(rowData.opm_kurang) || 0;
             const opm_kali = parseFloat(rowData.opm_kali) || 0;
             const opm_bagi = parseFloat(rowData.opm_bagi) || 0;
 
+            // Menghitung total OPM
             let opm_total = opm_tambah + opm_kurang + opm_kali + opm_bagi;
+            // Membatasi hasil menjadi 2 angka di belakang koma
             opm_total = parseFloat(opm_total.toFixed(2));
 
+            // Cari hasil tes yang sudah ada
             const existingTestResult = await TestResult.findOne({
                 student_id: { $in: [student._id, null] },
                 opm_tambah: rowData.opm_tambah,
@@ -43,6 +47,7 @@ exports.processBatch = async (batch, sessionId) => {
                 opm_bagi: rowData.opm_bagi
             }).session(session);
 
+            // Jika hasil tes sudah ada, update hasil tes
             if (existingTestResult) {
                 existingTestResult.student_id = student._id;
                 existingTestResult.opm_tambah = rowData.opm_tambah;

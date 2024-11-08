@@ -32,7 +32,8 @@ exports.createTestResult = async (req, res) => {
     // Menghitung total OPM hanya dengan nilai yang tersedia
     const opm_total = [opm_tambah, opm_kurang, opm_kali, opm_bagi]
       .filter(value => value != null)
-      .reduce((acc, value) => acc + value, 0);
+      .reduce((acc, value) => acc + value, 0)
+      .toFixed(2); // Membatasi hasil menjadi 2 angka di belakang koma
 
     // Buat data hasil tes baru dan masukkan ke database, periksa semua nilai opm terlebih dahulu agar tidak undefined
     const newTestResult = new TestResult({
@@ -65,8 +66,9 @@ exports.updateTestResult = async (req, res) => {
 
     // Hitung total OPM hanya dengan nilai yang tersedia
     const opm_total = [opm_tambah, opm_kurang, opm_kali, opm_bagi]
-      .filter(value => value != null)
-      .reduce((acc, value) => acc + value, 0);
+      .filter(value => value != null) // Filter nilai yang tidak null
+      .reduce((acc, value) => acc + value, 0) // Jumlahkan semua nilai
+      .toFixed(2); // Membatasi hasil menjadi 2 angka di belakang koma
 
     // Perbarui nilai OPM pada data hasil tes, pastikan semua nilai tidak undefined
     testResult.opm_tambah = opm_tambah != null ? opm_tambah : testResult.opm_tambah;

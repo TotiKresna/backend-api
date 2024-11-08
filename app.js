@@ -9,12 +9,16 @@ const studentRoutes = require('./routes/students');
 const testResultRoutes = require('./routes/testResults');
 const importRoutes = require('./routes/import');
 const authRoutes = require('./routes/authRoutes.js');
+const docsRoutes = require('./routes/docsRoutes');
 const startWorker = require('./worker/importWorker.js');
 
 const app = express();
 
-// Config
-require('dotenv').config();
+//* Config development
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
+
+// Config production
+// require('dotenv').config()
 
 // Connect to database
 connectDB();
@@ -38,6 +42,7 @@ app.use('/auth', authRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/test-results', testResultRoutes);
 app.use('/api/import', importRoutes);
+app.use('/api-docs', docsRoutes);
 
 startWorker(app);
 
