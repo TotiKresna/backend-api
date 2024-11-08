@@ -2,14 +2,14 @@
 <a name="readme-top"></a>
 
 <h1 align="center">PROYEK TUGAS AKHIR</h1>
-<h3 align="center">Implementasi MERN RESTful API Aplikasi Penilaian Hasil Test of Second Mathematics PT. Exa Connect Indonesia Berbasis Web </h3>
-<h4 align="center"> Tech Stack 🖥️ : MongoDB Atlas (Mongoose), ExpressJS, ReactJS, NodeJS.<br></br>
+<h3 align="center">IMPLEMENTASI MONGODB EXPRESS REACT AND NODE JS (MERN) STACK RESTFUL API PADA APLIKASI PENILAIAN HASIL TEST OF SECOND MATHEMATICS PT. EXA CONNECT INDONESIA BERBASIS WEB</h3>
+<h4 align="center"> Tech Stack 🖥️ : MongoDB Atlas (Mongoose), ExpressJS, React, NodeJS.<br></br>
 
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=flat-square&logo=mongodb&logoColor=white)
-![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=flat-square&logo=express&logoColor=%2361DAFB)
-![React](https://img.shields.io/badge/React.js-badge?style=flat-square&logo=react&labelColor=1B1B1B&color=22BBEE)
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=flat-square&logo=node.js&logoColor=white)
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=flat-square&logo=javascript&logoColor=%23F7DF1E)
+![Express.js](https://img.shields.io/badge/Express.js-%23404d59.svg?style=flat-square&logo=express&logoColor=%2361DAFB)
+![React](https://img.shields.io/badge/React-badge?style=flat-square&logo=react&labelColor=1B1B1B&color=22BBEE)
+![NodeJS](https://img.shields.io/badge/Node.js-6DA55F?style=flat-square&logo=node.js&logoColor=white)
+![JavaScript](https://img.shields.io/badge/Javascript-%23323330.svg?style=flat-square&logo=javascript&logoColor=%23F7DF1E)
 
 </h4>
 
@@ -24,10 +24,6 @@
 - [Tutorial](#tutorial)
 - [Installation](#installation)
 - [Usage](#usage)
-- [API Documentation](#api-documentation)
-  - [API Students](#api-students)
-  - [API Test Results](#api-test-results)
-  - [API Import Excel](#api-import-excel)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -37,8 +33,7 @@ This project is a backend API for managing students and their test results. Buil
 
 Belajar Membuat Implementasi RESTful API menggunakan NodeJS, Express.
 
-Proyek MERN ini akan terus berlanjut sebagai media pembelajaran khususnya untuk diri saya sendiri sebelum tiba saatnya sampai di fase 
-_`"temanku berkata: Iki ono garapan"`_
+`Proyek MERN ini selain menjadi proyek Tugas Akhir saya sebagai kewajiban dalam menempuh perkuliahan nantinya akan terus berlanjut sebagai media pembelajaran khususnya untuk diri saya sendiri`
 
 ## 🚀Tutorial
 
@@ -64,6 +59,8 @@ Perlu disiapkan :
 3. Buat file `.env` yang berisi :
     ```bash
     DB_URI : "ENTER YOUR CONNECTION STRING"
+    JWT_SECRET: "your_jwt_secret"
+    NODE_ENV: "development/production"
     PORT   :  5000
     ```
 4. Setelah semua sudah disiapkan lanjut ke 👇
@@ -83,44 +80,6 @@ To start the server, run the following command:
 ```markdown
 npm run dev
 ```
-
-## 🔥API Documentation
-
-
-### 🎓API Students
-
-|HTTP Method    |Endpoint  | Description  |Body Parameters  | 
-| -----------   | ---------| ---------    | --------------- |
-|POST   |/students          |Create a new student           |`{ "name": "string", "kelas": "string" }`|
-|GET    |/students          |Read all students              |- |
-|GET    |/students/:id      |Read a student by ID           |- |
-|PUT    |/student/:id       |Update a student by ID         |`{ "name": "string", "kelas": "string" }`|
-|DELETE |/student/:id       |Delete a student by ID         |- |
-|POST   |/students/multi    |Delete multiple students by IDs|`{ "ids": ["string","string","string"] }`|
-
-### 📝API Test Results
-
-| HTTP Method | Endpoint         | Description | BodyParameters |
-| ----------- | --------         | ----------- | ------------   |
-| POST| /test-result| Create a new test result| `{ "nama": "string","kelas": "string", "opm_tambah": "number","opm_kurang":"number", "opm_kali": "number", "opm_bagi": "number" }` |
-| GET         | /test-result     | Read all test results      | - |
-| GET         | /test-result/:id | Read a test result by ID   | - |
-| PUT         | /test-result/:id | Update a test result by ID | `{ "opm_tambah": "number", "opm_kurang": "number", "opm_kali": "number", "opm_bagi": "number" }`|
-| DELETE      | /test-result/:id | Delete a test result by ID | - |
-| POST        | /test-result/multi | Delete multiple test results by IDs | `{ "ids": ["string","string","string"] }` |
-
-
-### 📄API Import Excel
-
-| HTTP Method | Endpoint  | Description        | BodyParameters     |
-| ----------- | --------  | -----------        | ------------       |
-|POST         | /import   | Import file Excel  | `{"files/xlsx"}`   |
-
-* Struktur file Excel
-
-  | Nama    | Kelas         | OPM Tambah | OPM Kurang | OPM Kali |  OPM Bagi |
-  | ---     | --------      | -----------| -----------| -----    | -----     |
-  |John Doe | Universitas X | `100.12`   | `90.34`    | `80.56`  |  `70.78`  |
 
 ## Contributing
 
