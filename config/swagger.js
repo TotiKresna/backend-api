@@ -28,7 +28,7 @@ Authorization: Bearer your-token-here
     },
     servers: [
       {
-        url: process.env.FRONTEND_URL || 'http://localhost:5000',
+        url: process.env.BACKEND_URL || 'http://localhost:5000',
         description: 'Development server',
       },
     ],
