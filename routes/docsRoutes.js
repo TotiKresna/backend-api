@@ -11,22 +11,12 @@ const swaggerUiOptions = {
   swaggerOptions: {
     persistAuthorization: true,
   },
-  // customCssUrl: 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.0.0/swagger-ui.css',
-  // customJs: [
-  //   'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.0.0/swagger-ui-bundle.js',
-  //   'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.0.0/swagger-ui-standalone-preset.js'
-  // ]
+  customCssUrl: 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.0.0/swagger-ui.css',
+  customJs: [
+    'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.0.0/swagger-ui-bundle.js',
+    'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.0.0/swagger-ui-standalone-preset.js'
+  ]
 };
-
-router.use((req, res, next) => {
-  const url = req.url;
-  if (url.endsWith('.js')) {
-    res.type('application/javascript');
-  } else if (url.endsWith('.css')) {
-    res.type('text/css');
-  }
-  next();
-});
 
 router.use('/', swaggerUi.serve);
 router.get('/', swaggerUi.setup(specs, swaggerUiOptions));
